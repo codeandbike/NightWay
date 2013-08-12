@@ -55,10 +55,13 @@
     <ClInclude Include="..\Classes\baselayer\CStartGame.h">
       <Filter>baselayer</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\baselayer\DialogLayer.h">
+    <ClInclude Include="..\Classes\baselayer\ExitDialog.h">
       <Filter>baselayer</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\baselayer\ExitDialog.h">
+    <ClInclude Include="..\Classes\baselayer\CSetDialog.h">
+      <Filter>baselayer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\baselayer\DialogLayer.h">
       <Filter>baselayer</Filter>
     </ClInclude>
   </ItemGroup>
@@ -78,10 +81,13 @@
     <ClCompile Include="..\Classes\baselayer\CStartGame.cpp">
       <Filter>baselayer</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\baselayer\DialogLayer.cpp">
+    <ClCompile Include="..\Classes\baselayer\ExitDialog.cpp">
       <Filter>baselayer</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\baselayer\ExitDialog.cpp">
+    <ClCompile Include="..\Classes\baselayer\CSetDialog.cpp">
+      <Filter>baselayer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\baselayer\DialogLayer.cpp">
       <Filter>baselayer</Filter>
     </ClCompile>
   </ItemGroup>

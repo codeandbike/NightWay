@@ -1,6 +1,7 @@
 #include "CStartGame.h"
 #include "CMission.h"
 #include "ExitDialog.h"
+#include "CSetDialog.h"
 
 using namespace cocos2d;
 CCStartGame::CCStartGame(void)
@@ -44,7 +45,7 @@ bool CCStartGame::init()
 			"Menu_StartGame_0.png",
 			"Menu_StartGame_1.png",
 			this,
-			NULL
+			menu_selector(CCStartGame::menuBeginGame)
 			);
 		pStartItem->setPosition(ccp(WinSize.width/2,WinSize.height/6*4));
 		CCMenu * pStartMenu = CCMenu::create(pStartItem,NULL);
@@ -68,7 +69,7 @@ bool CCStartGame::init()
 			"Menu_SetGame_0.png",
 			"Menu_SetGame_1.png",
 			this,
-			NULL
+			menu_selector(CCStartGame::menuSetGame)
 			);
 		pSetItem->setPosition(ccp(WinSize.width/2,WinSize.height/6*2));
 		CCMenu *pSetMenu = CCMenu::create(pSetItem,NULL);
@@ -113,6 +114,15 @@ CCScene * CCStartGame::scene()
 }
 
 /************************************************************************/
+/* 开始游戏                                                                     */
+/************************************************************************/
+void CCStartGame::menuBeginGame(CCObject *pSender)
+{
+
+}
+
+
+/************************************************************************/
 /* 系统退出                                                                     */
 /************************************************************************/
 void CCStartGame::menuCloseCallback(CCObject *pSender)
@@ -129,4 +139,13 @@ void CCStartGame::menuSceneToMission(CCObject *pSender)
 {
 	CCScene *s = CCMission::scene();
 	CCDirector::sharedDirector()->replaceScene(s);
+}
+
+/************************************************************************/
+/* 游戏设置                                                                     */
+/************************************************************************/
+void CCStartGame::menuSetGame(CCObject *pSender)
+{
+	CCSetDialog * dlg = CCSetDialog::create();
+	this->addChild(dlg);
 }

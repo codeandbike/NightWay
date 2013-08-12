@@ -10,6 +10,8 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/AppDelegate.cpp \
                    ../../Classes/baselayer/CStartGame.cpp \
                    ../../Classes/baselayer/CMission.cpp \
+                   ../../Classes/baselayer/ExitDialog.cpp \
+                   ../../Classes/baselayer/DialogLayer.cpp \
                    ../../Classes/HelloWorldScene.cpp
                    
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes                   

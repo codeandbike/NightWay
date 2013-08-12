@@ -134,6 +134,8 @@
     <ClInclude Include="..\Classes\AppDelegate.h" />
     <ClInclude Include="..\Classes\baselayer\CMission.h" />
     <ClInclude Include="..\Classes\baselayer\CStartGame.h" />
+    <ClInclude Include="..\Classes\baselayer\DialogLayer.h" />
+    <ClInclude Include="..\Classes\baselayer\ExitDialog.h" />
     <ClInclude Include="..\Classes\HelloWorldScene.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="resource.h" />
@@ -142,6 +144,8 @@
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\baselayer\CMission.cpp" />
     <ClCompile Include="..\Classes\baselayer\CStartGame.cpp" />
+    <ClCompile Include="..\Classes\baselayer\DialogLayer.cpp" />
+    <ClCompile Include="..\Classes\baselayer\ExitDialog.cpp" />
     <ClCompile Include="..\Classes\HelloWorldScene.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>

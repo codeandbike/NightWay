@@ -1,5 +1,7 @@
 #include "CStartGame.h"
 #include "CMission.h"
+#include "ExitDialog.h"
+
 using namespace cocos2d;
 CCStartGame::CCStartGame(void)
 {
@@ -115,9 +117,9 @@ CCScene * CCStartGame::scene()
 /************************************************************************/
 void CCStartGame::menuCloseCallback(CCObject *pSender)
 {
-	CCDirector::sharedDirector()->end();
-
-	
+	//CCDirector::sharedDirector()->end();
+	ExitDlg * dlg = ExitDlg::create();
+	this->addChild(dlg);
 }
 
 /************************************************************************/

@@ -13,6 +13,9 @@
       <UniqueIdentifier>{568de2af-9ac0-43ae-8d81-293424ff2307}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;jpg;jpeg;jpe;png;manifest</Extensions>
     </Filter>
+    <Filter Include="baselayer">
+      <UniqueIdentifier>{0fd50904-27a1-4562-a2a0-3d922bc5a8f6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\NightWay.ico">
@@ -46,6 +49,12 @@
     <ClInclude Include="..\Classes\HelloWorldScene.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\baselayer\CMission.h">
+      <Filter>baselayer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\baselayer\CStartGame.h">
+      <Filter>baselayer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -56,6 +65,12 @@
     </ClCompile>
     <ClCompile Include="..\Classes\HelloWorldScene.cpp">
       <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\baselayer\CMission.cpp">
+      <Filter>baselayer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\baselayer\CStartGame.cpp">
+      <Filter>baselayer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

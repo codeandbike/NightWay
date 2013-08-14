@@ -29,6 +29,9 @@ bool CCStartGame::init()
 		//////////////////////////////////////////////////////////////////////////
 		//加载场景元素
 		//////////////////////////////////////////////////////////////////////////
+		//初始化数据保存文件
+		CCUserDefault::sharedUserDefault()->setBoolForKey("MyDB",true);
+		CCUserDefault::sharedUserDefault()->setBoolForKey("1001",true);
 		//获得设备尺寸
 		CCSize WinSize = CCDirector::sharedDirector()->getWinSize();
 

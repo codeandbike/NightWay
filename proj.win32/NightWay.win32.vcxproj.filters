@@ -64,6 +64,9 @@
     <ClInclude Include="..\Classes\baselayer\DialogLayer.h">
       <Filter>baselayer</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\baselayer\CMainScene.h">
+      <Filter>baselayer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -88,6 +91,9 @@
       <Filter>baselayer</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\baselayer\DialogLayer.cpp">
+      <Filter>baselayer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\baselayer\CMainScene.cpp">
       <Filter>baselayer</Filter>
     </ClCompile>
   </ItemGroup>

@@ -2,6 +2,7 @@
 #include "CMission.h"
 #include "ExitDialog.h"
 #include "CSetDialog.h"
+#include "CMainScene.h"
 
 using namespace cocos2d;
 CCStartGame::CCStartGame(void)
@@ -121,7 +122,8 @@ CCScene * CCStartGame::scene()
 /************************************************************************/
 void CCStartGame::menuBeginGame(CCObject *pSender)
 {
-
+	CCScene *s = CCMainScene::scene();
+	CCDirector::sharedDirector()->replaceScene(s);
 }
 
 

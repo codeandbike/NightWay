@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 
+
 class CCMission :public cocos2d::CCLayer
 {
 public:

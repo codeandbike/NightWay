@@ -1,6 +1,9 @@
 #include "CMission.h"
 #include "CStartGame.h"
+#include <stdio.h>
 using namespace cocos2d;
+using namespace std;
+
 CCMission::CCMission(void)
 {
 }
@@ -28,17 +31,56 @@ bool CCMission::init()
 		//////////////////////////////////////////////////////////////////////////
 		//获得设备尺寸
 		CCSize WinSize = CCDirector::sharedDirector()->getWinSize();
+		//加载背景
+		CCSprite *bg = CCSprite::create("missionBG.png");
+		bg->setPosition(ccp(WinSize.width/2,WinSize.height/2));
+		this->addChild(bg);
+
 		//加载关卡按钮
-		CCMenuItemImage * pSetItem = CCMenuItemImage::create(
-			"Menu_SetGame_0.png",
-			"Menu_SetGame_1.png",
-			this,
-			menu_selector(CCMission::menuSceneToStart)
-			);
-		pSetItem->setPosition(ccp(WinSize.width/2,WinSize.height/6*2));
-		CCMenu *pSetMenu = CCMenu::create(pSetItem,NULL);
-		pSetMenu->setPosition(CCPointZero);
-		this->addChild(pSetMenu);
+// 		CCScale9Sprite *butNormal = CCScale9Sprite::create("missionItemBG_0.png");
+// 		CCScale9Sprite *butSelected = CCScale9Sprite::create("missionItemBG_1.png");
+// 		CCLabelTTF * title = CCLabelTTF::create("1","Arial",20);
+// 		CCControlButton *pButton  = CCControlButton::create(butNormal);
+// 		pButton->setPreferredSize(CCSizeMake(66,66));
+// 		pButton->setBackgroundSpriteForState(butSelected,CCControlStateSelected);
+// 		pButton->setPosition(ccp(WinSize.width/2,WinSize.height/2));
+// 		this->addChild(pButton);
+		//////////////////////////////////////////////////////////////////////////
+		//加载关卡按钮
+		//////////////////////////////////////////////////////////////////////////
+		CCMenu * menu = CCMenu::create(NULL);
+		//创建MenuItem并加到Menu中
+		for (int i = 0; i<5;i++)
+		{
+			CCMenuItemImage *MeunItem = CCMenuItemImage::create(
+				"missionItemBG_0.png",
+				"missionItemBG_1.png",
+				this,
+				menu_selector(CCMission::menuSceneToStart)
+				); 
+			MeunItem->setPosition(ccp(WinSize.width/6*(i+1),WinSize.height/2));
+
+			menu->addChild(MeunItem,1000+i);
+			menu->setPosition(CCPointZero);
+		}
+		this->addChild(menu);
+
+		for (int i = 0; i<5;i++)
+		{
+			char  s[5];
+			sprintf(s,"%d",i+1);
+
+			CCLabelTTF *title = CCLabelTTF::create(s,"",60);
+			title->setPosition(ccp(WinSize.width/6*(i+1),WinSize.height/2));
+			title->setColor(ccc3(82,255,82));
+			this->addChild(title);
+
+			CCSprite *lock = CCSprite::create("missionLock.png");
+			lock->setPosition(ccp(WinSize.width/6*(i+1)-20,WinSize.height/2-16));
+			this->addChild(lock);
+		}
+		
+		
 
 		sRet = true;
 	} while (0);
@@ -70,6 +112,14 @@ CCScene * CCMission::scene()
 /************************************************************************/
 void CCMission::menuSceneToStart(CCObject *pSender)
 {
-	CCScene *s = CCStartGame::scene();
-	CCDirector::sharedDirector()->replaceScene(s);
+	CCMenuItemImage *u = (CCMenuItemImage*)pSender;
+	int i = u->getZOrder();
+
+	if (1001 == i)
+	{
+		CCScene *s = CCStartGame::scene();
+		CCDirector::sharedDirector()->replaceScene(s);
+	}
+		
+
 }

@@ -3,10 +3,53 @@
 
 #include "cocos-ext.h"
 #include "cocos2d.h"
-USING_NS_CC_EXT;  
+#include <list>
 
+USING_NS_CC_EXT;  
+using namespace std;
 class CCMainScene : public cocos2d::CCLayer
 {
+
+private:
+	//屏幕尺寸
+	cocos2d::CCSize winSize;
+	//主角
+	cocos2d::CCSprite *m_pLead;   
+
+	//移动方向枚举
+	enum direction{
+		kUp,
+		kDown,
+		kLeft,
+		kRight
+	};
+	//墙体颜色枚举
+	enum m_pEnumWell{
+		kyellow,
+		kred,
+		kgreen,
+		kblue
+	};
+
+	//移动方向
+	int dirTag; 
+	//移动量
+	float MoveLength; 
+	//是否有按钮按下
+	bool b_ButtonDown; 
+	//触碰到墙体
+	int m_pTagWell; 
+
+	struct struct_wall
+	{
+		list<cocos2d::CCPoint> yellow_wall;
+		list<cocos2d::CCPoint> red_wall;
+		list<cocos2d::CCPoint> green_wall;
+		list<cocos2d::CCPoint> blue_wall;
+	};
+
+	struct_wall sceneWall;
+	
 public:
 	CCMainScene(void);
 	~CCMainScene(void);
@@ -22,6 +65,38 @@ public:
 	/* 类初始化                                                                     */
 	/************************************************************************/
 	virtual bool init();
+
+	/************************************************************************/
+	/* 菜单事件回调函数                                                                     */
+	/************************************************************************/
+	void menuCloseCallback(CCObject * pSender);
+
+	/************************************************************************/
+	/* 主角移动                                                                     */
+	/************************************************************************/
+	void moveLead(float t);
+
+	/************************************************************************/
+	/* 检测碰撞                                                                     */
+	/************************************************************************/
+	bool seeImpact(cocos2d::CCRect leadRect);
+
+	/************************************************************************/
+	/* 碰撞处理                                                                     */
+	/************************************************************************/
+	void handleImpact();
+
+
+	/************************************************************************/
+	/*       初始化墙体集合                                                               */
+	/************************************************************************/
+	list<cocos2d::CCPoint> initList(int arr[][2],int n);
+
+	/************************************************************************/
+	/* 墙体消失                                                                     */
+	/************************************************************************/
+	void callNodeBack(CCNode *sender);
+
 
 	/************************************************************************/
 	/*    按钮事件回调函数                                                                  */

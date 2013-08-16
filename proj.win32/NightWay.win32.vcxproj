@@ -136,6 +136,8 @@
     <ClInclude Include="..\Classes\baselayer\CMission.h" />
     <ClInclude Include="..\Classes\baselayer\CSetDialog.h" />
     <ClInclude Include="..\Classes\baselayer\CStartGame.h" />
+    <ClInclude Include="..\Classes\baselayer\CWallData.h" />
+    <ClInclude Include="..\Classes\baselayer\CWellSprite.h" />
     <ClInclude Include="..\Classes\baselayer\DialogLayer.h" />
     <ClInclude Include="..\Classes\baselayer\ExitDialog.h" />
     <ClInclude Include="..\Classes\HelloWorldScene.h" />
@@ -148,6 +150,8 @@
     <ClCompile Include="..\Classes\baselayer\CMission.cpp" />
     <ClCompile Include="..\Classes\baselayer\CSetDialog.cpp" />
     <ClCompile Include="..\Classes\baselayer\CStartGame.cpp" />
+    <ClCompile Include="..\Classes\baselayer\CWallData.cpp" />
+    <ClCompile Include="..\Classes\baselayer\CWellSprite.cpp" />
     <ClCompile Include="..\Classes\baselayer\DialogLayer.cpp" />
     <ClCompile Include="..\Classes\baselayer\ExitDialog.cpp" />
     <ClCompile Include="..\Classes\HelloWorldScene.cpp" />

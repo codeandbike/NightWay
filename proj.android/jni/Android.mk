@@ -14,6 +14,8 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/baselayer/DialogLayer.cpp \
                    ../../Classes/baselayer/CSetDialog.cpp \
                    ../../Classes/baselayer/CMainScene.cpp \
+                   ../../Classes/baselayer/CWellSprite.cpp \
+                   ../../Classes/baselayer/CWallData.cpp \
                    ../../Classes/HelloWorldScene.cpp
                    
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes                   

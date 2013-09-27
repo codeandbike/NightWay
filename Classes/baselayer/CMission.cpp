@@ -1,5 +1,7 @@
 #include "CMission.h"
 #include "CStartGame.h"
+#include "CWallData.h"
+#include "CMainScene.h"
 #include <stdio.h>
 #define loadBooleanFromXML CCUserDefault::sharedUserDefault()->getBoolForKey
 
@@ -39,15 +41,20 @@ bool CCMission::init()
 		bg->setPosition(ccp(WinSize.width/2,WinSize.height/2));
 		this->addChild(bg);
 
-		//加载关卡按钮
-// 		CCScale9Sprite *butNormal = CCScale9Sprite::create("missionItemBG_0.png");
-// 		CCScale9Sprite *butSelected = CCScale9Sprite::create("missionItemBG_1.png");
-// 		CCLabelTTF * title = CCLabelTTF::create("1","Arial",20);
-// 		CCControlButton *pButton  = CCControlButton::create(butNormal);
-// 		pButton->setPreferredSize(CCSizeMake(66,66));
-// 		pButton->setBackgroundSpriteForState(butSelected,CCControlStateSelected);
-// 		pButton->setPosition(ccp(WinSize.width/2,WinSize.height/2));
-// 		this->addChild(pButton);
+		//添加一个返回按钮
+		CCMenuItemImage *pBackItem = CCMenuItemImage::create(
+			"back_0.png",
+			"back_1.png",
+			this,
+			menu_selector(CCMission::menuSceneToStart)
+			);
+		pBackItem->setPosition(ccp(WinSize.width - 30,WinSize.height-30));
+		CCMenu * pBackMenu = CCMenu::create(pBackItem,NULL);
+		pBackMenu->setPosition(CCPointZero);
+		this->addChild(pBackMenu);
+
+
+
 		//////////////////////////////////////////////////////////////////////////
 		//加载关卡按钮
 		//////////////////////////////////////////////////////////////////////////
@@ -55,37 +62,41 @@ bool CCMission::init()
 		CCLayer *titleLayer = CCLayer::create();
 		CCLayer *lockLayer = CCLayer::create();
 		//创建MenuItem并加到Menu中
-		for (int i = 0; i<5;i++)
+		CCWallData * data = CCWallData::create();
+		NextID = data->getNextID();
+		for (int i = 0; i<data->getSceneConter();i++)
 		{
 			CCMenuItemImage *MeunItem = CCMenuItemImage::create(
 				"missionItemBG_0.png",
 				"missionItemBG_1.png",
 				this,
-				menu_selector(CCMission::menuSceneToStart)
+				menu_selector(CCMission::menuSceneToGame)
 				); 
-			MeunItem->setPosition(ccp(WinSize.width/6*(i+1),WinSize.height/2));
+			float x = WinSize.width/7*((i%6)+1);
+			float y = WinSize.height/5*(4-i/6);
+
+			MeunItem->setPosition(ccp(x,y));
 
 			menu->addChild(MeunItem,1000+i);
 			menu->setPosition(CCPointZero);
 
-			char  s[5];
-			sprintf(s,"%d",i+1);
-
-			CCLabelTTF *title = CCLabelTTF::create(s,"",60);
-			title->setPosition(ccp(WinSize.width/6*(i+1),WinSize.height/2));
-			title->setColor(ccc3(82,255,82));
-			titleLayer->addChild(title);
-			//CCUserDefault::sharedUserDefault()->getBoolForKey("lock1",false);
- 
 			char nmbArr[10];
 			sprintf(nmbArr,"%d",1000+i);
 			//string Nmb = new string(nmbArr);
 
-			if (!loadBooleanFromXML(nmbArr,false))
+			if (i+1 >= NextID)
 			{
 				CCSprite *lock = CCSprite::create("missionLock.png");
-				lock->setPosition(ccp(WinSize.width/6*(i+1)-20,WinSize.height/2-16));
+				lock->setPosition(ccp(x,y));
 				lockLayer->addChild(lock);
+			}else{
+
+				char  s[5];
+				sprintf(s,"%d",i+1);
+				CCLabelTTF *title = CCLabelTTF::create(s,"STKaiti",45);
+				title->setPosition(ccp(x,y));
+				title->setColor(ccc3(255,255,255));
+				titleLayer->addChild(title);
 			}
 
 		}
@@ -93,8 +104,6 @@ bool CCMission::init()
 		this->addChild(titleLayer);
 		this->addChild(lockLayer);
 		
-		
-
 		sRet = true;
 	} while (0);
 	return sRet;
@@ -125,68 +134,28 @@ CCScene * CCMission::scene()
 /************************************************************************/
 void CCMission::menuSceneToStart(CCObject *pSender)
 {
+	
+	CCScene * s = CCStartGame::scene();
+	CCDirector::sharedDirector()->replaceScene(s);
+}
+
+/************************************************************************/
+/* 跳转到游戏界面                                                                   */
+/************************************************************************/
+void CCMission::menuSceneToGame(CCObject *pSender)
+{
 	CCMenuItemImage *u = (CCMenuItemImage*)pSender;
 	int i = u->getZOrder();
 
-// 	if (1001 == i)
-// 	{
-// 		CCScene *s = CCStartGame::scene();
-// 		CCDirector::sharedDirector()->replaceScene(s);
-// 	}
-
 	char tagNmb[10];
 	sprintf(tagNmb,"%d",i);
-	switch(i)
+	int sceneID = i-1000;
+	if (sceneID < NextID)
 	{
-	case 1000:
-		{
-			if (loadBooleanFromXML(tagNmb,false))
-			{
-				CCScene *s = CCStartGame::scene();
-				CCDirector::sharedDirector()->replaceScene(s);
-			}
-		}
-		break;
-	case 1001:
-		{
-			if (loadBooleanFromXML(tagNmb,false))
-			{
-				CCScene *s = CCStartGame::scene();
-				CCDirector::sharedDirector()->replaceScene(s);
-			}
-		}
-		break;
-	case 1002:
-		{
-			if (loadBooleanFromXML(tagNmb,false))
-			{
-				CCScene *s = CCStartGame::scene();
-				CCDirector::sharedDirector()->replaceScene(s);
-			}
-		}
-		break;
-	case 1003:
-		{
-			if (loadBooleanFromXML(tagNmb,false))
-			{
-				CCScene *s = CCStartGame::scene();
-				CCDirector::sharedDirector()->replaceScene(s);
-			}
-		}
-		break;
-	case 1004:
-		{
-			if (loadBooleanFromXML(tagNmb,false))
-			{
-				CCScene *s = CCStartGame::scene();
-				CCDirector::sharedDirector()->replaceScene(s);
-			}
-		}
-		break;
-	default:
-		break;
-
-	}
-		
+		CCWallData * data = CCWallData::create();
+		data->setSelectID(sceneID+1);
+		CCScene *s = CCMainScene::scene();
+		CCDirector::sharedDirector()->replaceScene(s);
+	}	
 
 }

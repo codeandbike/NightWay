@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="50" height="48" tilewidth="10" tileheight="10">
+ <tileset firstgid="1" name="red" tilewidth="10" tileheight="10">
+  <image source="../../../../ajob/游戏开发/夜行八百/red.png" width="10" height="10"/>
+ </tileset>
+ <tileset firstgid="2" name="yellow" tilewidth="10" tileheight="10">
+  <image source="../../../../ajob/游戏开发/夜行八百/yellow.PNG" width="10" height="10"/>
+ </tileset>
+ <tileset firstgid="3" name="blue" tilewidth="10" tileheight="10">
+  <image source="../../../../ajob/游戏开发/夜行八百/blue.png" width="10" height="10"/>
+ </tileset>
+ <tileset firstgid="4" name="green" tilewidth="10" tileheight="10">
+  <image source="../../../../ajob/游戏开发/夜行八百/green.png" width="10" height="10"/>
+ </tileset>
+ <tileset firstgid="5" name="Lead" tilewidth="5" tileheight="5">
+  <image source="../../../../ajob/游戏开发/夜行八百/Lead.PNG" width="5" height="5"/>
+ </tileset>
+ <layer name="块层 1" width="50" height="48">
+  <data encoding="base64" compression="zlib">
+   eJzt2dkOwiAURVGc/v+XfWpEAnfkMvXshAcTrF2mhWhTOqeHYUT1NAw4UnoFjV4OqtEOqrs53tlYoU/xeldHmcdhua6udr8/4PA5So9lH+Qc0vOrnat2H4RjniOv5dDkceTV1kzpfgDHr1kO7fXIrYme79FzHDj+j1sb1LxIB1U+jzv/XR3SRjss64skOPj3Rzha1+pu9wcc9Nze+8fq6xUc8x15LYd0/9aMWpbf+TMd2v8Z4ZjvoNI6Vg2OteIcnudrvZ9jneaofd5dHJIkDmsnOzzzqODgO9HRY32minSMDI64vofkCto=
+  </data>
+ </layer>
+</map>

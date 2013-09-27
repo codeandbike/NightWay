@@ -4,6 +4,7 @@
 #include "cocos-ext.h"
 #include "cocos2d.h"
 #include <list>
+#include "CWallData.h"
 
 USING_NS_CC_EXT;  
 using namespace std;
@@ -13,9 +14,11 @@ class CCMainScene : public cocos2d::CCLayer
 private:
 	//屏幕尺寸
 	cocos2d::CCSize winSize;
+	int SceneID; //场景ID
+	cocos2d::CCLabelTTF * titleNum;
 	//主角
 	cocos2d::CCSprite *m_pLead;   
-
+	CCWallData * data; //场景数据类
 	//移动方向枚举
 	enum direction{
 		kUp,
@@ -28,7 +31,8 @@ private:
 		kyellow,
 		kred,
 		kgreen,
-		kblue
+		kblue,
+		knull
 	};
 
 	//移动方向
@@ -71,6 +75,8 @@ public:
 	/************************************************************************/
 	void menuCloseCallback(CCObject * pSender);
 
+
+
 	/************************************************************************/
 	/* 主角移动                                                                     */
 	/************************************************************************/
@@ -96,8 +102,10 @@ public:
 	/* 墙体消失                                                                     */
 	/************************************************************************/
 	void callNodeBack(CCNode *sender);
-
-
+	/************************************************************************/
+	/* 时间计数                                                                    */
+	/************************************************************************/
+	void addDataTime(float t);
 	/************************************************************************/
 	/*    按钮事件回调函数                                                                  */
 	/************************************************************************/

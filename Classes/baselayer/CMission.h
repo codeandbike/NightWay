@@ -9,6 +9,10 @@ class CCMission :public cocos2d::CCLayer
 public:
 	CCMission(void);
 	~CCMission(void);
+
+private:
+	int NextID;  //下一关ID
+	
 public:
 
 	/************************************************************************/
@@ -29,5 +33,10 @@ public:
 	/* 返回启动页面                                                                     */
 	/************************************************************************/
 	void menuSceneToStart(CCObject *pSender);
+
+	/************************************************************************/
+	/* 跳转到游戏界面                                                                   */
+	/************************************************************************/
+	void menuSceneToGame(CCObject *pSender);
 };
 #endif

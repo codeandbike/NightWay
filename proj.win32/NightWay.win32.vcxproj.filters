@@ -16,6 +16,9 @@
     <Filter Include="baselayer">
       <UniqueIdentifier>{0fd50904-27a1-4562-a2a0-3d922bc5a8f6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="jsoncpp">
+      <UniqueIdentifier>{656440e6-77ed-4cd5-94e5-cddc68ba49ec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\NightWay.ico">
@@ -29,6 +32,15 @@
     </None>
     <None Include="..\Resources\HelloWorld.png">
       <Filter>resource</Filter>
+    </None>
+    <None Include="..\Classes\jsoncpp\json_internalarray.inl">
+      <Filter>jsoncpp</Filter>
+    </None>
+    <None Include="..\Classes\jsoncpp\json_internalmap.inl">
+      <Filter>jsoncpp</Filter>
+    </None>
+    <None Include="..\Classes\jsoncpp\json_valueiterator.inl">
+      <Filter>jsoncpp</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -73,6 +85,39 @@
     <ClInclude Include="..\Classes\baselayer\CWellSprite.h">
       <Filter>baselayer</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\jsoncpp\autolink.h">
+      <Filter>jsoncpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\jsoncpp\config.h">
+      <Filter>jsoncpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\jsoncpp\features.h">
+      <Filter>jsoncpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\jsoncpp\forwards.h">
+      <Filter>jsoncpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\jsoncpp\json.h">
+      <Filter>jsoncpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\jsoncpp\json_batchallocator.h">
+      <Filter>jsoncpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\jsoncpp\reader.h">
+      <Filter>jsoncpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\jsoncpp\value.h">
+      <Filter>jsoncpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\jsoncpp\writer.h">
+      <Filter>jsoncpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\baselayer\CInfoDialog.h">
+      <Filter>baselayer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\baselayer\CWinDialog.h">
+      <Filter>baselayer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -106,6 +151,21 @@
       <Filter>baselayer</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\baselayer\CWellSprite.cpp">
+      <Filter>baselayer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\jsoncpp\json_reader.cpp">
+      <Filter>jsoncpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\jsoncpp\json_value.cpp">
+      <Filter>jsoncpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\jsoncpp\json_writer.cpp">
+      <Filter>jsoncpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\baselayer\CInfoDialog.cpp">
+      <Filter>baselayer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\baselayer\CWinDialog.cpp">
       <Filter>baselayer</Filter>
     </ClCompile>
   </ItemGroup>

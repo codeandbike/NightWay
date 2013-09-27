@@ -1,5 +1,6 @@
 #include "ExitDialog.h"
 #include "cocos2d.h"
+#include "CWallData.h"
 
 USING_NS_CC;
 
@@ -27,16 +28,16 @@ bool ExitDlg::onInitDialog()
 	this->addChild(bg);
 
     CCMenuItemImage *okMenuItem = CCMenuItemImage::create(
-		"dialogButtonOk_0.png",
-		"dialogButtonOk_1.png",
+		"buttonDlgOk_0.png",
+		"buttonDlgOk_1.png",
 		this, 
 		menu_selector(ExitDlg::okMenuItemCallback)
 		);
     okMenuItem->setPosition(ccp(winSize.width / 2 - 100, winSize.height / 2 - 70));
 
     CCMenuItemImage *cancelMenuItem = CCMenuItemImage::create(
-		"dialogButtonCancel_0.png", 
-		"dialogButtonCancel_1.png", 
+		"buttonDlgCancel_0.png", 
+		"buttonDlgCancel_1.png", 
 		this,
 		menu_selector(ExitDlg::cancelMenuItemCallback)
 		);
@@ -46,7 +47,7 @@ bool ExitDlg::onInitDialog()
     pushMenu(cancelMenuItem);
 
     setColor(ccc3(150,150,150));
-    setOpacity(128);
+    setOpacity(210);
     return true;
 }
 

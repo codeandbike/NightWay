@@ -3,10 +3,15 @@
 #include "ExitDialog.h"
 #include "CSetDialog.h"
 #include "CMainScene.h"
+#include "CInfoDialog.h"
+#include "SimpleAudioEngine.h"
+#include "CWallData.h"
 
 using namespace cocos2d;
 CCStartGame::CCStartGame(void)
 {
+	//初始化障碍物结构体
+	//data = new CCWallData;
 }
 
 
@@ -32,7 +37,7 @@ bool CCStartGame::init()
 		//////////////////////////////////////////////////////////////////////////
 		//初始化数据保存文件
 		CCUserDefault::sharedUserDefault()->setBoolForKey("MyDB",true);
-		CCUserDefault::sharedUserDefault()->setBoolForKey("1001",true);
+
 		//获得设备尺寸
 		CCSize WinSize = CCDirector::sharedDirector()->getWinSize();
 
@@ -51,7 +56,7 @@ bool CCStartGame::init()
 			this,
 			menu_selector(CCStartGame::menuBeginGame)
 			);
-		pStartItem->setPosition(ccp(WinSize.width/2,WinSize.height/6*4));
+		pStartItem->setPosition(ccp(WinSize.width/2-200,WinSize.height/6*2));
 		CCMenu * pStartMenu = CCMenu::create(pStartItem,NULL);
 		pStartMenu->setPosition(CCPointZero);
 		this->addChild(pStartMenu);
@@ -63,7 +68,7 @@ bool CCStartGame::init()
 			this,
 			menu_selector(CCStartGame::menuSceneToMission)
 			);
-		pMissionItem->setPosition(ccp(WinSize.width/2,WinSize.height/6*3));
+		pMissionItem->setPosition(ccp(WinSize.width/2+200,WinSize.height/6*2));
 		CCMenu * pMissionMenu = CCMenu::create(pMissionItem,NULL);
 		pMissionMenu->setPosition(CCPointZero);
 		this->addChild(pMissionMenu);
@@ -75,7 +80,7 @@ bool CCStartGame::init()
 			this,
 			menu_selector(CCStartGame::menuSetGame)
 			);
-		pSetItem->setPosition(ccp(WinSize.width/2,WinSize.height/6*2));
+		pSetItem->setPosition(ccp(WinSize.width/2-200,WinSize.height/6));
 		CCMenu *pSetMenu = CCMenu::create(pSetItem,NULL);
 		pSetMenu->setPosition(CCPointZero);
 		this->addChild(pSetMenu);
@@ -87,11 +92,28 @@ bool CCStartGame::init()
 			this,
 			menu_selector(CCStartGame::menuCloseCallback)
 			);
-		pQuitItem->setPosition(ccp(WinSize.width/2,WinSize.height/6));
+		pQuitItem->setPosition(ccp(WinSize.width/2+200,WinSize.height/6));
 		CCMenu * pQuitMenu = CCMenu::create(pQuitItem,NULL);
 		pQuitMenu->setPosition(CCPointZero);
 		this->addChild(pQuitMenu);
 
+		//添加一个开发者信息按钮
+		CCMenuItemImage *pInfoItem = CCMenuItemImage::create(
+			"info_0.png",
+			"info_1.png",
+			this,
+			menu_selector(CCStartGame::menuInfoCallback)
+			);
+		pInfoItem->setPosition(ccp(WinSize.width - 30,WinSize.height-30));
+		CCMenu * pInfoMenu = CCMenu::create(pInfoItem,NULL);
+		pInfoMenu->setPosition(CCPointZero);
+		this->addChild(pInfoMenu);
+		//添加背景音乐
+		CCWallData *data = CCWallData::create();
+		if (data->m_bMusic)
+		{
+			CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("mainmenu.wav",true);
+		}
 		sRet = true;
 	} while (0);
 	return sRet;
@@ -152,5 +174,14 @@ void CCStartGame::menuSceneToMission(CCObject *pSender)
 void CCStartGame::menuSetGame(CCObject *pSender)
 {
 	CCSetDialog * dlg = CCSetDialog::create();
+	this->addChild(dlg);
+}
+
+/************************************************************************/
+/* 开发者信息回调函数                                                                     */
+/************************************************************************/
+void CCStartGame::menuInfoCallback(CCObject * pSender)
+{
+	CCInfoDialog * dlg = CCInfoDialog::create();
 	this->addChild(dlg);
 }

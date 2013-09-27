@@ -1,26 +1,22 @@
 #include "CMainScene.h"
 #include "CStartGame.h"
 #include "CWellSprite.h"
+#include "CWinDialog.h"
+#include "SimpleAudioEngine.h"
 
 using namespace cocos2d;
 CCMainScene::CCMainScene(void)
 {
 	//初始化移动偏移量
-	MoveLength = CCDirector::sharedDirector()->getWinSize().height/480*5;
+	MoveLength = CCDirector::sharedDirector()->getWinSize().height/480*4;
 	//初始化按钮状态
 	b_ButtonDown = false;
 	//初始化障碍物结构体
-	//数组取值范围[0][0] -> [27][32]
-	int yellowArr[118][2] = {{1,0},{2,0},{3,0},{4,0},{5,0}};
-	int redArr[5][2] = {{1,4},{2,4},{3,4},{4,4},{5,4}};
-	int greenArr[5][2] = {{1,8},{2,8},{3,8},{4,8},{5,8}};
-	int blueArr[5][2] = {{1,12},{2,12},{3,12},{4,12},{5,12}};
+	data = CCWallData::create();
+	SceneID = data->getSelectID();
+	data->setDataTime(0);
+	data->getWall(SceneID,&sceneWall.red_wall,&sceneWall.yellow_wall,&sceneWall.blue_wall,&sceneWall.green_wall);
 
-	sceneWall.yellow_wall = initList(yellowArr,118);
-	sceneWall.red_wall = initList(redArr,5);
-	sceneWall.green_wall = initList(greenArr,5);
-	sceneWall.blue_wall = initList(blueArr,5);
-	
 }
 
 
@@ -65,23 +61,31 @@ bool CCMainScene::init()
 
 		//获取屏幕尺寸
 		winSize = CCDirector::sharedDirector()->getWinSize();
-		//添加一个菜单按钮
-		CCMenuItemImage *pCloseItem = CCMenuItemImage::create(
-			"CloseNormal.png",
-			"CloseSelected.png",
+		//添加背景
+		CCSprite * bgSprite = CCSprite::create("mainGameBG.png");
+		bgSprite->setPosition(ccp(winSize.width/2,winSize.height/2));
+		this->addChild(bgSprite);
+
+		//添加一个返回按钮
+		CCMenuItemImage *pBackItem = CCMenuItemImage::create(
+			"back_0.png",
+			"back_1.png",
 			this,
-			menu_selector(CCMainScene::menuCloseCallback));
-		CC_BREAK_IF(! pCloseItem);
-		pCloseItem->setPosition(ccp(winSize.width - 20, winSize.height-20));
-		CCMenu* pMenu = CCMenu::create(pCloseItem, NULL);
-		pMenu->setPosition(CCPointZero);
-		CC_BREAK_IF(! pMenu);
-		this->addChild(pMenu, 1);
+			menu_selector(CCMainScene::menuCloseCallback)
+			);
+		pBackItem->setPosition(ccp(winSize.width - 30,winSize.height-30));
+		CCMenu * pBackMenu = CCMenu::create(pBackItem,NULL);
+		pBackMenu->setPosition(CCPointZero);
+		this->addChild(pBackMenu);
+
 
 		//初始化主角并添加到场景
 		m_pLead = CCSprite::create("Lead.PNG");
-		m_pLead->setPosition(ccp(winSize.width/2,winSize.height/2));
+		m_pLead->setPosition(data->getLeadPosition());
 		this->addChild(m_pLead);
+
+
+		//添加测试按钮
 
 		//////////////////////////////////////////////////////////////////////////
 		//添加控制按钮  开始
@@ -91,9 +95,9 @@ bool CCMainScene::init()
 		CCScale9Sprite *btnNormal = CCScale9Sprite::create("up2.png");
 		CCScale9Sprite *btnSelected = CCScale9Sprite::create("up1.png");
 		CCControlButton *pButtonUP = CCControlButton::create(btnNormal);
-		pButtonUP->setPreferredSize(CCSizeMake(48,48));
+		pButtonUP->setPreferredSize(CCSizeMake(70,70));
 		pButtonUP->setBackgroundSpriteForState(btnSelected,CCControlStateSelected);
-		pButtonUP->setPosition(ccp(winSize.width/2,((150/4)*3)+12.5));
+		pButtonUP->setPosition(ccp(winSize.width/16*13,winSize.width/16*4.5));
 		pButtonUP->addTargetWithActionForControlEvents(this,cccontrol_selector(CCMainScene::touchDragInsideUp),CCControlEventTouchDown);
 		pButtonUP->addTargetWithActionForControlEvents(this,cccontrol_selector(CCMainScene::touchDragInsideUp2),CCControlEventTouchUpInside);
 		pButtonUP->addTargetWithActionForControlEvents(this,cccontrol_selector(CCMainScene::touchDragInsideUp2),CCControlEventTouchUpOutside);
@@ -103,42 +107,49 @@ bool CCMainScene::init()
 		btnNormal = CCScale9Sprite::create("down2.png");
 		btnSelected = CCScale9Sprite::create("down1.png");
 		CCControlButton *pButtonDown = CCControlButton::create(btnNormal);
-		pButtonDown->setPreferredSize(CCSizeMake(48,48));
+		pButtonDown->setPreferredSize(CCSizeMake(70,70));
 		pButtonDown->setBackgroundSpriteForState(btnSelected,CCControlStateSelected);
-		pButtonDown->setPosition(ccp(winSize.width/2,(150/4)-12.5));
+		pButtonDown->setPosition(ccp(winSize.width/16*13,winSize.width/16*1.5));
 		pButtonDown->addTargetWithActionForControlEvents(this,cccontrol_selector(CCMainScene::touchDragInsideDown),CCControlEventTouchDown);
 		pButtonDown->addTargetWithActionForControlEvents(this,cccontrol_selector(CCMainScene::touchDragInsideDown2),CCControlEventTouchUpInside);
-		pButtonDown->addTargetWithActionForControlEvents(this,cccontrol_selector(CCMainScene::touchDragInsideUp2),CCControlEventTouchUpOutside);
+		pButtonDown->addTargetWithActionForControlEvents(this,cccontrol_selector(CCMainScene::touchDragInsideDown2),CCControlEventTouchUpOutside);
 		this->addChild(pButtonDown);
 
 		//添加向左按钮
 		btnNormal = CCScale9Sprite::create("left2.png");
 		btnSelected = CCScale9Sprite::create("left1.png");
 		CCControlButton *pButtonLeft = CCControlButton::create(btnNormal);
-		pButtonLeft->setPreferredSize(CCSizeMake(48,48));
+		pButtonLeft->setPreferredSize(CCSizeMake(70,70));
 		pButtonLeft->setBackgroundSpriteForState(btnSelected,CCControlStateSelected);
-		pButtonLeft->setPosition(ccp((winSize.width/2)-48,150/2));
+		pButtonLeft->setPosition(ccp(winSize.width/16*11.5,winSize.width/16*3));
 		pButtonLeft->addTargetWithActionForControlEvents(this,cccontrol_selector(CCMainScene::touchDragInsideLeft),CCControlEventTouchDown);
 		pButtonLeft->addTargetWithActionForControlEvents(this,cccontrol_selector(CCMainScene::touchDragInsideLeft2),CCControlEventTouchUpInside);
-		pButtonLeft->addTargetWithActionForControlEvents(this,cccontrol_selector(CCMainScene::touchDragInsideUp2),CCControlEventTouchUpOutside);
+		pButtonLeft->addTargetWithActionForControlEvents(this,cccontrol_selector(CCMainScene::touchDragInsideLeft2),CCControlEventTouchUpOutside);
 		this->addChild(pButtonLeft);
 
 		//添加向右按钮
 		btnNormal = CCScale9Sprite::create("right2.png");
 		btnSelected = CCScale9Sprite::create("right1.png");
 		CCControlButton *pButtonRight = CCControlButton::create(btnNormal);
-		pButtonRight->setPreferredSize(CCSizeMake(48,48));
+		pButtonRight->setPreferredSize(CCSizeMake(70,70));
 		pButtonRight->setBackgroundSpriteForState(btnSelected,CCControlStateSelected);
-		pButtonRight->setPosition(ccp((winSize.width/2)+48,150/2));
+		pButtonRight->setPosition(ccp(winSize.width/16*14.5,winSize.width/16*3));
 		pButtonRight->addTargetWithActionForControlEvents(this,cccontrol_selector(CCMainScene::touchDragInsideRight),CCControlEventTouchDown);
 		pButtonRight->addTargetWithActionForControlEvents(this,cccontrol_selector(CCMainScene::touchDragInsideRight2),CCControlEventTouchUpInside);
-		pButtonRight->addTargetWithActionForControlEvents(this,cccontrol_selector(CCMainScene::touchDragInsideUp2),CCControlEventTouchUpOutside);
+		pButtonRight->addTargetWithActionForControlEvents(this,cccontrol_selector(CCMainScene::touchDragInsideRight2),CCControlEventTouchUpOutside);
 		this->addChild(pButtonRight);
 
 		//////////////////////////////////////////////////////////////////////////
 		//添加控制按钮  结束
 		//////////////////////////////////////////////////////////////////////////
 
+		//添加计时器
+		this->schedule(schedule_selector(CCMainScene::addDataTime),1.0);
+
+		titleNum = CCLabelTTF::create("","",45);
+		titleNum->setPosition(ccp(80,20));
+		titleNum->setColor(ccc3(255,255,255));
+		this->addChild(titleNum);
 
 		sRet = true;
 	} while (0);
@@ -334,7 +345,7 @@ bool CCMainScene::seeImpact(CCRect leadRect)
 	//判断是否撞上黄色墙体
 	for (iter = sceneWall.yellow_wall.begin();iter!=sceneWall.yellow_wall.end();iter++)
 	{
-		//list<CCPoint>::iterator iter = yellow_wall.begin()+i;
+		
 		CCPoint temp = *iter;
 		CCRect wellRect = CCRectMake(temp.x-5,temp.y-5,10,10); 
 		if (leadRect.intersectsRect(wellRect))
@@ -347,7 +358,7 @@ bool CCMainScene::seeImpact(CCRect leadRect)
 	//判断是否撞上红色墙体
 	for (iter = sceneWall.red_wall.begin();iter!=sceneWall.red_wall.end();iter++)
 	{
-		//list<CCPoint>::iterator iter = yellow_wall.begin()+i;
+		
 		CCPoint temp = *iter;
 		CCRect wellRect = CCRectMake(temp.x-5,temp.y-5,10,10); 
 		if (leadRect.intersectsRect(wellRect))
@@ -361,7 +372,7 @@ bool CCMainScene::seeImpact(CCRect leadRect)
 	//判断是否撞上绿色墙体
 	for (iter = sceneWall.green_wall.begin();iter!=sceneWall.green_wall.end();iter++)
 	{
-		//list<CCPoint>::iterator iter = yellow_wall.begin()+i;
+		
 		CCPoint temp = *iter;
 		CCRect wellRect = CCRectMake(temp.x-5,temp.y-5,10,10); 
 		if (leadRect.intersectsRect(wellRect))
@@ -375,7 +386,7 @@ bool CCMainScene::seeImpact(CCRect leadRect)
 	//判断是否撞上蓝色墙体
 	for (iter = sceneWall.blue_wall.begin();iter!=sceneWall.blue_wall.end();iter++)
 	{
-		//list<CCPoint>::iterator iter = yellow_wall.begin()+i;
+		
 		CCPoint temp = *iter;
 		CCRect wellRect = CCRectMake(temp.x-5,temp.y-5,10,10); 
 		if (leadRect.intersectsRect(wellRect))
@@ -385,6 +396,15 @@ bool CCMainScene::seeImpact(CCRect leadRect)
 		}
 
 	}
+
+	//判断是否移动到场景外说明游戏结束
+	if (leadRect.getMinX()<0 || leadRect.getMinY()<0 || leadRect.getMaxX() > 500 || leadRect.getMaxY() >480)
+	{
+		m_pTagWell = knull;
+		return false;
+	}
+
+	
 
 	return true;
 }
@@ -412,7 +432,7 @@ list<CCPoint> CCMainScene::initList(int arr[][2],int n)
 void CCMainScene::callNodeBack(CCNode *sender)
 {
 	CCWellSprite * sprite = (CCWellSprite *)sender;
-	this->removeChild(sprite);
+	this->removeChild(sprite,true);
 }
 
 
@@ -421,6 +441,12 @@ void CCMainScene::callNodeBack(CCNode *sender)
 /************************************************************************/
 void CCMainScene::handleImpact()
 {
+	CCWallData *data = CCWallData::create();
+	if (data->m_bsound)
+	{
+		CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("snd_pusharpshot.wav");
+	}
+
 	switch(m_pTagWell)
 	{
 	case kyellow:
@@ -468,8 +494,30 @@ void CCMainScene::handleImpact()
 			blue_Sprite->runAction(seq);
 		}
 		break;
-
+	case knull://移动到场景外说明游戏结束
+		{
+			this->unschedule(schedule_selector(CCMainScene::moveLead));//停止移动
+			this->unschedule(schedule_selector(CCMainScene::addDataTime));
+			CCWinDialog *dlg = CCWinDialog::create();
+			this->addChild(dlg);
+		}
+		break;
 	default:
 		break;
 	}
+}
+
+
+/************************************************************************/
+/* 时间计数                                                                    */
+/************************************************************************/
+void CCMainScene::addDataTime(float t)
+{
+	CCWallData *data = CCWallData::create();
+	data->setDataTime(data->getDataTime()+1);
+
+	char  s[10];
+	sprintf(s,"%d",data->getDataTime());
+	titleNum->setString(s);
+
 }
